@@ -1,0 +1,31 @@
+program Booleans {
+    decl x, y as int;
+    decl score as real;
+    decl msg as string;
+	decl a, b, c, d as bool
+
+    routine calculateBonus(base : real, multiplier : int) returns real {
+        decl temp as real;
+        base * multiplier => temp;
+        yield temp;
+    }
+
+    10 => x;
+    5.5 => score;
+    `Player Score: ` => msg;
+
+    loop until [x > 0] do {
+        invoke calculateBonus(score, x) => score;
+        x - 1 => x;
+    };
+
+    choose [score >= 100.0] match {
+        msg ~ `Passed!` => msg;
+    } otherwise {
+        `Failed!` => msg;
+    };
+	yes => a;
+	no => b; 
+	maybe => c; 
+	(a and (not b or c)) => d;  -- should compile OK 
+}

@@ -1,0 +1,27 @@
+program KeywordAsVariable {
+    decl x, y as int;
+    decl score as real;
+    decl msg as string;
+
+    -- This will break if keywords aren't handled properly 
+    routine calculateBonus(choose : real, results : int) returns real {
+        decl match as real;
+        choose * results => match;
+        yield match;
+    }
+
+    10 => x;
+    5.5 => score;
+    `Player Score: ` => msg;
+
+    loop until [x > 0] do {
+        invoke calculateBonus(score, x) => score;
+        x - 1 => x;
+    };
+
+    choose [score >= 100.0] match {
+        msg ~ `Passed!` => msg;
+    } otherwise {
+        `Failed!` => msg;
+    };
+}

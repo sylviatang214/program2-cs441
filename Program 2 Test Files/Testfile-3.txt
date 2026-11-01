@@ -1,0 +1,26 @@
+program Comparison {
+    decl x, y as int;
+    decl score as real;
+    decl msg as string;
+
+    routine calculateBonus(base : real, multiplier : int) returns real {
+        decl temp as real;
+        base * multiplier => temp;
+        yield temp;
+    }
+
+    10 => x;
+    5.5 => score;
+    `Player Score: ` => msg;
+
+    loop until [x > `Hello`] do { -- this won't execute but should parse
+        invoke calculateBonus(x, score) => score;  -- will parse/execute, wrong answer. (params in wrong order) 
+        x - 1 => x;
+    };
+
+    choose [score >= 100.0] match {
+        msg ~ `Passed!` => msg;
+    } otherwise {
+        `Failed!` => msg;
+    };
+}
